@@ -1,4 +1,4 @@
-package es.aboris.crud.controllers;
+package es.aboris.crud.controllers.crud;
 
 import es.aboris.crud.model.Room;
 import es.aboris.crud.services.RoomService;

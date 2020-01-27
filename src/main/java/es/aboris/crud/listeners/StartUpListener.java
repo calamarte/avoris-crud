@@ -1,7 +1,9 @@
 package es.aboris.crud.listeners;
 
 import es.aboris.crud.model.Room;
+import es.aboris.crud.model.User;
 import es.aboris.crud.repositories.RoomRepository;
+import es.aboris.crud.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,21 @@ public class StartUpListener implements ApplicationListener<ContextRefreshedEven
 
     private static Logger logger = LoggerFactory.getLogger(StartUpListener.class);
 
-
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        List<User> users = Arrays.asList(
+          new User("admin", "admin")
+        );
+
+        users = (List<User>) userRepository.saveAll(users);
+        logger.info("Creados los usuarios: " + users);
+
         List<Room> roomList = Arrays.asList(
                 new Room("1", "A", false, Room.RoomsStatus.CLEAN),
                 new Room("2", "A", false, Room.RoomsStatus.DIRTY),

@@ -61,19 +61,6 @@ public class Room extends AbstractEntity<Integer>{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Room room = (Room) o;
-        return this.getId().equals(room.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getId());
-    }
-
-    @Override
     public String toString() {
         return "Room{" +
                 "number='" + number + '\'' +

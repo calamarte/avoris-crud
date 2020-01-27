@@ -1,4 +1,4 @@
-package es.aboris.crud.controllers;
+package es.aboris.crud.controllers.crud;
 
 import es.aboris.crud.model.AbstractEntity;
 import es.aboris.crud.services.AbstractService;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
 public abstract class AbstractCrudController<T extends AbstractEntity, ID> {
 
     protected AbstractService<T, ID> service;
