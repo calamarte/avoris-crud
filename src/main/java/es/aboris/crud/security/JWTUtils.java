@@ -3,8 +3,11 @@ package es.aboris.crud.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -13,10 +16,31 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class JWTUtils {
 
-    private static final long endNano = 15 * 60 * 1000;
-    private static final String secret = "aboris";
+    private static long expirationTime;
+    private static String secret;
+    private static String prefix;
+
+    @Value("${token.expiration.time:#{15 * 60 * 1000}}")
+    private void setExpirationTime(long expirationTime){
+        JWTUtils.expirationTime = expirationTime;
+    }
+
+    @Value("${token.secret:aboris}")
+    private void setSecret(String secret){
+        JWTUtils.secret = secret;
+    }
+
+    @Value("${token.prefix:Bearer}")
+    public void setPrefix(String prefix) {
+        JWTUtils.prefix = prefix;
+    }
+
+    public static String getPrefix() {
+        return prefix;
+    }
 
     public static String getToken(String username){
         List grantedAuthorities = AuthorityUtils

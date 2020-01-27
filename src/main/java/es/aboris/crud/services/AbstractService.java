@@ -39,7 +39,7 @@ public abstract class AbstractService<T extends AbstractEntity, ID> {
         try {
             result = (T) this.repository.save(entity);
         }catch (DataIntegrityViolationException e){
-            logger.debug("e", e);
+            logger.debug("Violación de integridad", e);
 
             if(e.getCause() instanceof ConstraintViolationException){
                 throw new es.aboris.crud.exceptions.ConstraintViolationException(entity);

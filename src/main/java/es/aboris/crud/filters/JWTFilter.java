@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 
 public class JWTFilter extends OncePerRequestFilter {
 
-    private String PREFIX = "Bearer";
-
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
@@ -67,13 +65,13 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private Claims getClaims(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if (!Strings.isNullOrEmpty(token) && token.startsWith(PREFIX)) {
+        if (!Strings.isNullOrEmpty(token) && token.startsWith(JWTUtils.getPrefix())) {
             String[] splitToken = token.split(" ");
 
             if(splitToken.length == 2){
                 token = splitToken[1];
             }else {
-                token = null;
+                 return null;
             }
 
             return JWTUtils.validateToken(token);

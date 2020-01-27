@@ -2,6 +2,7 @@ package es.aboris.crud.controllers.crud;
 
 import es.aboris.crud.model.AbstractEntity;
 import es.aboris.crud.services.AbstractService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
