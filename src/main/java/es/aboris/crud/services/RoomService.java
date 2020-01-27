@@ -10,6 +10,6 @@ public class RoomService extends AbstractService<Room, Integer> {
 
     @Autowired
     protected RoomService(RoomRepository repository) {
-        super(repository);
+        super(repository, Room.class);
     }
 }

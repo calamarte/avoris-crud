@@ -60,6 +60,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
                 authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+
         SecurityContextHolder.getContext().setAuthentication(auth);
 
     }
@@ -67,7 +68,13 @@ public class JWTFilter extends OncePerRequestFilter {
     private Claims getClaims(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (!Strings.isNullOrEmpty(token) && token.startsWith(PREFIX)) {
-            token = token.split(" ")[1];
+            String[] splitToken = token.split(" ");
+
+            if(splitToken.length == 2){
+                token = splitToken[1];
+            }else {
+                token = null;
+            }
 
             return JWTUtils.validateToken(token);
         }

@@ -27,7 +27,7 @@ public abstract class AbstractCrudController<T extends AbstractEntity, ID> {
 
     @GetMapping("/id/{id}")
     public T findById(@PathVariable ID id) {
-        return (T) service.findById(id).orElse(null);
+        return (T) service.findById(id);
     }
 
     @GetMapping("/all")
