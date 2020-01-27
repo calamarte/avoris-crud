@@ -7,12 +7,15 @@ import es.aboris.crud.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class StartUpListener implements ApplicationListener<ContextRefreshedEvent> {
@@ -25,11 +28,19 @@ public class StartUpListener implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private UserRepository userRepository;
 
+    @Value("#{'${users.start.list:admin-admin}'.split(',')}")
+    private List<String> users;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        List<User> users = Arrays.asList(
-          new User("admin", "admin")
-        );
+        List<User> users = this.users.stream()
+                .filter(Objects::nonNull)
+                .map((u) -> {
+                    String[] split = u.split("-");
+                    return split.length == 2 ? new User(split[0], split[1]) : null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
         users = (List<User>) userRepository.saveAll(users);
         logger.info("Creados los usuarios: " + users);
