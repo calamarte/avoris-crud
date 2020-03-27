@@ -1,8 +1,8 @@
 package es.aboris.crud.controllers.auth;
 
 import com.google.common.base.Strings;
-import es.aboris.crud.repositories.UserRepository;
 import es.aboris.crud.security.JWTUtils;
+import es.aboris.crud.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class AuthController {
 
     @Autowired
-    private UserRepository repository;
+    private UserService service;
 
     @RequestMapping(
             value = "/auth",
@@ -29,7 +29,7 @@ public class AuthController {
 
         if(!Strings.isNullOrEmpty(username) && !Strings.isNullOrEmpty(pass)) {
 
-            Optional<es.aboris.crud.model.User> result = repository.findByUsername(username);
+            Optional<es.aboris.crud.model.User> result = service.findByUsername(username);
 
             if (result.isPresent() && result.get().getPassword().equals(pass)) {
                 return new User(username, JWTUtils.getPrefix(), JWTUtils.getToken(username));

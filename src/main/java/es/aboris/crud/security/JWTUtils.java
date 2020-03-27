@@ -57,7 +57,7 @@ public class JWTUtils {
                 .setSubject(username)
                 .claim("authorities", grantedAuthorities)
                 .setIssuedAt(Date.from(dateTime.toInstant()))
-                .setExpiration(Date.from(dateTime.plusHours(2).toInstant()))
+                .setExpiration(Date.from(dateTime.plusNanos(expirationTime).toInstant()))
                 .signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
 
         return token;
