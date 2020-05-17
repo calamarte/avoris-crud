@@ -3,6 +3,7 @@ package es.aboris.crud.controllers.auth;
 import com.google.common.base.Strings;
 import es.aboris.crud.security.JWTUtils;
 import es.aboris.crud.services.UserService;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
